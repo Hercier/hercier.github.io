@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Project page for Spatio-Temporal Control Variates with ReSTIR for Real-Time Rendering.">
+  <title>ReSTCV: Spatio-Temporal Control Variates with ReSTIR</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <nav class="nav">
+      <a class="brand" href="#">ReSTCV</a>
+      <div class="nav-links">
+        <a href="#abstract">Abstract</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#citation">Citation</a>
+      </div>
+    </nav>
+
+    <section class="hero-intro">
+      <div class="hero-copy">
+        <p class="venue">SIGGRAPH Conference Papers 2026</p>
+        <h1>Spatio-Temporal Control Variates with ReSTIR for Real-Time Rendering</h1>
+        <p class="authors">
+          Zhong Shi · Cunhao Wu · Lifan Wu · Kun Xu
+        </p>
+        <p class="subtitle">
+          ReSTCV combines ReSTIR-style sample reuse with spatio-temporal control variates,
+          reducing variance and stabilizing color under tight real-time sampling budgets.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="assets/pdfs/paper.pdf">Paper</a>
+          <a class="button" href="assets/pdfs/supplemental.pdf">Supplemental</a>
+          <a class="button" href="https://github.com/Hercier/ReSTCV">Code</a>
+          <a class="button" href="#citation">BibTeX</a>
+        </div>
+      </div>
+    </section>
+
+    <figure class="teaser-figure">
+      <img src="assets/images/teaser.png" alt="Visual comparison showing ReSTIR PT, ReSTCV, and reference renderings.">
+      <figcaption>
+        ReSTCV accumulates path contributions through control variates while preserving efficient ReSTIR reuse.
+      </figcaption>
+    </figure>
+  </header>
+
+  <main>
+    <section id="abstract" class="section narrow">
+      <p class="eyebrow">Abstract</p>
+      <!-- <h2>Abstract</h2> -->
+      <p>
+        Real-time path tracing demands high visual quality under extremely tight sampling budgets,
+        often relying on reservoir-based spatio-temporal importance resampling (ReSTIR) to maximize
+        sample quality. However, ReSTIR typically estimates the pixel integral using a single
+        representative sample selected via a scalar target function such as luminance, which can
+        leave substantial per-channel variance in chromatic scenes.
+      </p>
+      <p>
+        ReSTCV integrates spatio-temporal control variates into ReSTIR. It reuses correlated
+        estimates across pixels and frames, estimates pixel differences with reservoir samples, and
+        replaces single-sample shading with accumulated path contributions. The result is a practical
+        real-time framework with modest overhead and significantly cleaner color stability.
+      </p>
+    </section>
+
+    <section id="method" class="section split">
+      <div>
+        <p class="eyebrow">Core Idea</p>
+        <h2>Reuse samples, and also accumulate contributions</h2>
+        <p>
+          Standard ReSTIR stores one representative sample in a reservoir. ReSTCV keeps this reuse
+          structure, but also maintains a color estimate as a control variate. During temporal and
+          spatial reuse, neighboring reservoirs provide auxiliary estimates, while ReSTIR-based
+          difference estimators correct them for the target pixel.
+        </p>
+        <p>
+          This makes the final estimate less dependent on a single retained path sample, narrowing
+          the gap between scalar luminance sampling and vector-valued color reconstruction.
+        </p>
+      </div>
+      <div class="core-visuals">
+        <figure class="card">
+          <img src="assets/images/motivation.png" alt="Motivation figure illustrating sample reuse and color distribution effects.">
+        </figure>
+        <div class="triptych core-triptych">
+          <figure>
+            <img src="assets/images/twolights_restir.png" alt="Two-light scene rendered with ReSTIR.">
+            <figcaption>ReSTIR</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/images/twolights_ours.png" alt="Two-light scene rendered with ReSTCV.">
+            <figcaption>ReSTCV</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/images/twolights_reference.png" alt="Two-light reference image.">
+            <figcaption>Reference</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">Algorithm</p>
+      <h2>A few localized changes to ReSTIR</h2>
+      <div class="algorithm-card">
+        <img src="assets/images/algorithm.png" alt="Pseudocode of the ReSTCV algorithm.">
+      </div>
+      <p class="note">
+        The implementation stores an additional accumulated color estimate in each reservoir,
+        estimates pixel differences during reuse, and returns the control-variate estimate for final shading.
+      </p>
+    </section>
+
+    <section id="results" class="section">
+      <p class="eyebrow">Results</p>
+      <h2>Cleaner color and lower variance across challenging scenes</h2>
+
+      <article class="result-row featured-result">
+        <figure class="result-figure tall-result">
+          <img src="assets/images/results_compare.png" alt="Equal-time visual comparison across rendering methods.">
+        </figure>
+        <div class="side-caption">
+          <h3>Equal-time comparison</h3>
+          <p>
+            Across dynamic scenes, ReSTCV reduces the color noise that remains visible in ReSTIR PT
+            while preserving the efficient sample distribution provided by reservoir reuse.
+          </p>
+        </div>
+      </article>
+
+      <article class="result-row">
+        <figure class="result-figure">
+          <img src="assets/images/cv_ablation.png" alt="Ablation study comparing fixed and random neighbors with single and multiple updates.">
+        </figure>
+        <div class="side-caption">
+          <h3>Neighbor and update choices</h3>
+          <p>
+            We compare fixed versus random neighbor selection and single versus multiple control-variate
+            updates. Random neighbor selection avoids structural artifacts, while ReSTCV obtains strong
+            reuse from spatio-temporal reservoirs without requiring costly repeated updates.
+          </p>
+        </div>
+      </article>
+
+      <article class="result-row">
+        <figure class="result-figure">
+          <img src="assets/images/direct_illumination.png" alt="Direct illumination comparison.">
+        </figure>
+        <div class="side-caption">
+          <h3>Direct illumination</h3>
+          <p>
+            ReSTCV keeps the direct-illumination sampling benefits of ReSTIR while accumulating
+            neighboring color estimates, which is especially useful for scenes with multiple colored lights.
+          </p>
+        </div>
+      </article>
+
+      <article class="result-row">
+        <figure class="result-figure">
+          <img src="assets/images/gi_compare.png" alt="Global illumination comparison.">
+        </figure>
+        <div class="side-caption">
+          <h3>Indirect illumination</h3>
+          <p>
+            Compared with ReSTIR PT and decoupled shading, ReSTCV accumulates spatio-temporal
+            contributions rather than relying on a single final shading sample.
+          </p>
+        </div>
+        <!-- <figure class="result-figure">
+          <img src="assets/images/convergence.png" alt="RMSE convergence chart.">
+          <figcaption>RMSE convergence under equal-time rendering.</figcaption>
+        </figure>
+        <figure class="result-figure coefficient">
+          <div class="mini-triptych">
+            <img src="assets/images/coef_reference.png" alt="Reference crop.">
+            <img src="assets/images/coef_ratio.png" alt="Reflectance-ratio coefficient crop.">
+            <img src="assets/images/coef_constant.png" alt="Constant coefficient crop.">
+          </div>
+          <figcaption>Coefficient choice affects color stability in difference estimation.</figcaption>
+        </figure> -->
+      </article>
+    </section>
+
+    <section id="citation" class="section narrow">
+      <p class="eyebrow">Citation</p>
+      <h2>BibTeX</h2>
+      <p class="note">
+        This is a pre-publication citation for convenience. We'll update it with the final metadata once the paper page is publicly available.
+      </p>
+      <pre class="bibtex"><code id="bibtex">@inproceedings{shi2026restcv,
+  title     = {Spatio-Temporal Control Variates with ReSTIR for Real-Time Rendering},
+  author    = {Shi, Zhong and Wu, Cunhao and Wu, Lifan and Xu, Kun},
+  booktitle = {Special Interest Group on Computer Graphics and Interactive Techniques Conference Conference Papers (SIGGRAPH Conference Papers '26)},
+  year      = {2026},
+  doi       = {10.1145/3799902.3811113},
+  note      = {To appear}
+}</code></pre>
+      <button class="button copy" type="button" data-copy-target="bibtex">Copy BibTeX</button>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>
+      Website layout adapted from the Nerfies project page template, which is distributed under
+      the <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0 License</a>.
+    </p>
+    <p>
+      Scene and asset credits are documented in the paper.
+    </p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
