@@ -5,6 +5,7 @@ Personal GitHub Pages homepage.
 ## Structure
 
 - `index.html`: personal homepage and project list.
+- `restcv.html`: flat ReSTCV project-page alias.
 - `styles.css`: homepage styles.
 - `restcv/`: project page for **Spatio-Temporal Control Variates with ReSTIR for Real-Time Rendering**.
 

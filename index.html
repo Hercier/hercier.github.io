@@ -3,77 +3,64 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Personal homepage for Zhong Shi, with research projects in real-time rendering and computer graphics.">
+  <meta name="description" content="Personal homepage for Zhong Shi, a computer graphics researcher working on real-time rendering and GPU rendering systems.">
   <title>Zhong Shi</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="site-header">
-    <nav class="nav">
-      <a class="brand" href="/">Zhong Shi</a>
-      <div class="nav-links">
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
+  <main class="page">
+    <header class="intro">
+      <h1>Zhong Shi</h1>
+      <p>
+        I am a master's student in the Department of Computer Science and Technology at
+        Tsinghua University, advised by Prof. Kun Xu. I received my bachelor's degree from
+        the Institute for Interdisciplinary Information Sciences (IIIS), Tsinghua University.
+        My research focuses on making real-time path tracing efficient, via high-performance
+        rendering systems and efficient sampling algorithms.
+      </p>
+      <div class="buttons">
+        <a href="mailto:shizhong24@mails.tsinghua.edu.cn">shizhong24@mails.tsinghua.edu.cn</a>
         <a href="https://github.com/Hercier">GitHub</a>
       </div>
-    </nav>
+    </header>
 
-    <section class="hero">
-      <p class="eyebrow">Computer Graphics · Real-Time Rendering</p>
-      <h1>Research notes, projects, and graphics experiments.</h1>
-      <p class="intro">
-        I work on rendering algorithms for real-time light transport, with an interest in
-        sample reuse, variance reduction, and practical systems that make path tracing cleaner
-        under tight budgets.
-      </p>
-      <div class="actions">
-        <a class="button primary" href="#projects">View Projects</a>
-        <a class="button" href="mailto:shizhong24@mails.tsinghua.edu.cn">Email</a>
-      </div>
-    </section>
-  </header>
-
-  <main>
-    <section id="projects" class="section">
-      <div class="section-heading">
-        <p class="eyebrow">Selected Project</p>
-        <h2>Rendering</h2>
-      </div>
-
-      <article class="project-card">
-        <a class="project-image" href="restcv/">
-          <img src="restcv/assets/images/teaser.png" alt="ReSTCV project teaser showing cleaner real-time rendering results.">
+    <section class="section">
+      <h2>Project</h2>
+      <article class="project">
+        <a class="teaser" href="restcv.html">
+          <img src="restcv/assets/images/teaser.png" alt="ReSTCV teaser showing cleaner real-time rendering results.">
         </a>
-        <div class="project-copy">
-          <p class="tag">SIGGRAPH Conference Papers 2026</p>
-          <h3><a href="restcv/">Spatio-Temporal Control Variates with ReSTIR for Real-Time Rendering</a></h3>
+        <div>
+          <h3><a href="restcv.html">Spatio-Temporal Control Variates with ReSTIR for Real-Time Rendering</a></h3>
           <p>
-            ReSTCV integrates spatio-temporal control variates into ReSTIR, accumulating
-            correlated path contributions to reduce variance and stabilize color in real-time path tracing.
+            ReSTCV integrates spatio-temporal control variates into ReSTIR to reduce variance
+            and improve color stability for real-time rendering.
           </p>
-          <div class="project-links">
-            <a href="restcv/">Project Page</a>
+          <p><strong>Technical Papers Awards: Honorable Mention.</strong></p>
+          <div class="links">
+            <a href="restcv.html">Project page</a>
             <a href="restcv/assets/pdfs/paper.pdf">Paper</a>
+            <a href="restcv/assets/pdfs/supplemental.pdf">Supplemental</a>
             <a href="https://github.com/Hercier/ReSTCV">Code</a>
           </div>
         </div>
       </article>
     </section>
 
-    <section id="contact" class="section compact">
-      <p class="eyebrow">Contact</p>
-      <h2>Get in touch</h2>
-      <p>
-        Email: <a href="mailto:shizhong24@mails.tsinghua.edu.cn">shizhong24@mails.tsinghua.edu.cn</a>
-      </p>
-      <p>
-        GitHub: <a href="https://github.com/Hercier">github.com/Hercier</a>
-      </p>
+    <section class="section">
+      <h2>Publications</h2>
+      <article class="publication">
+        <h3><a href="restcv.html">Spatio-Temporal Control Variates with ReSTIR for Real-Time Rendering</a></h3>
+        <p><strong>Zhong Shi</strong>, Cunhao Wu, Lifan Wu, Kun Xu</p>
+        <p>SIGGRAPH Conference Papers 2026</p>
+      </article>
+
+      <article class="publication">
+        <h3><a href="https://dl.acm.org/doi/10.1145/3687766">GPU Coroutines for Flexible Splitting and Scheduling of Rendering Tasks</a></h3>
+        <p>Shaokun Zheng, Xin Chen, <strong>Zhong Shi</strong>, Ling-Qi Yan, Kun Xu</p>
+        <p>ACM Transactions on Graphics, SIGGRAPH Asia 2024</p>
+      </article>
     </section>
   </main>
-
-  <footer class="footer">
-    <p>Built with plain HTML and CSS. Project-page template attribution is included on each project page.</p>
-  </footer>
 </body>
 </html>
