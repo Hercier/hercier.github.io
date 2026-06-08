@@ -218,7 +218,8 @@ figcaption {
 
 .card,
 .algorithm-card,
-.result-figure {
+.result-figure,
+.video-card {
   margin: 0;
   border: 1px solid var(--line);
   background: var(--panel);
@@ -226,7 +227,8 @@ figcaption {
 }
 
 .card,
-.algorithm-card {
+.algorithm-card,
+.video-card {
   padding: 10px;
 }
 
@@ -234,6 +236,12 @@ figcaption {
 .algorithm-card img,
 .result-figure img {
   width: 100%;
+}
+
+.video-card video {
+  display: block;
+  width: 100%;
+  background: #161310;
 }
 
 .algorithm-card {
